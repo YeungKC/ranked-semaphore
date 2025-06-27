@@ -1,12 +1,3 @@
-//! High-performance priority semaphore implementation
-//!
-//! Core features:
-//! - Zero unsafe: 100% safe Rust code
-//! - Ultra-low latency: <10ns uncontended path
-//! - Priority scheduling: Configurable priority-based task ordering
-//! - Batch operations: Optimized multi-permit acquisition
-//! - Zero-cost abstractions: Pay only for what you use
-
 use crate::config::{PriorityConfig, QueueStrategy};
 use crate::error::{AcquireError, TryAcquireError};
 use crate::wait_queue::{WaitQueue, WaiterHandle};

@@ -1,4 +1,3 @@
-//! Tokio runtime example for ranked-semaphore
 
 use ranked_semaphore::{PriorityConfig, QueueStrategy, RankedSemaphore};
 use std::sync::Arc;

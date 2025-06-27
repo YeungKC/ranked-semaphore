@@ -1,5 +1,3 @@
-//! Priority configuration for ranked semaphore.
-
 /// Queue strategy for waiters at a given priority level.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum QueueStrategy {

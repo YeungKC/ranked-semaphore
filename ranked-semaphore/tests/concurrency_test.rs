@@ -1,13 +1,3 @@
-//! Concurrency and contention tests for RankedSemaphore
-//!
-//! This module tests concurrent operations including:
-//! - Light, medium and heavy contention scenarios
-//! - Deadlock detection and prevention
-//! - Cancel safety verification
-//! - Concurrent acquire and release patterns
-//! - Priority behavior under contention
-//! - Stress testing with many tasks
-
 use ranked_semaphore::{AcquireError, RankedSemaphore, TryAcquireError};
 use std::sync::Arc;
 use std::time::Duration;

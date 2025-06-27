@@ -1,5 +1,3 @@
-//! Error types for ranked semaphore operations.
-
 use std::fmt;
 
 /// Error returned from acquire operations when the semaphore has been closed.

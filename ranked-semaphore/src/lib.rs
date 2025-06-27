@@ -1,41 +1,55 @@
-#![cfg_attr(docsrs, feature(doc_cfg))]
-#![warn(missing_docs, unreachable_pub, missing_debug_implementations)]
-#![deny(rust_2018_idioms)]
-
-//! # Ranked Semaphore - High-Performance Priority Semaphore
+//! # ranked-semaphore
 //!
-//! A completely safe (zero unsafe) high-performance semaphore implementation with priority queuing.
-//! Design goals: zero-cost abstractions, ultra-low latency, minimal memory footprint.
+//! **A priority-aware semaphore for async Rust.**
 //!
-//! ## Core Features
+//! ## Features
+//! - Priority scheduling: Configurable priority-based task ordering
+//! - No runtime dependency: Works with any async runtime (Tokio, async-std, smol, etc.)
+//! - Flexible queue strategies: FIFO/LIFO and custom strategy
 //!
-//! - **High Performance**: Uncontended path <10ns latency
-//! - **Zero unsafe**: 100% safe Rust code
-//! - **Dynamic Priority**: Support for arbitrary priority levels
-//! - **Zero Cost**: Memory allocation only for actively used priorities
-//! - **Batch Optimized**: Smart batching reduces lock contention
-//! - **Cache Friendly**: Optimized memory layout
-//!
-//! ## Usage Example
-//!
+//! ## Quick Start
 //! ```rust
 //! use ranked_semaphore::RankedSemaphore;
 //!
-//! # async fn example() -> Result<(), Box<dyn std::error::Error>> {
-//! // Create a semaphore with 3 permits
-//! let semaphore = RankedSemaphore::new_fifo(3);
+//! #[tokio::main]
+//! async fn main() {
+//!     // Create a semaphore with 3 permits, FIFO strategy
+//!     let sem = RankedSemaphore::new_fifo(3);
 //!
-//! // Default priority acquisition
-//! let _permit1 = semaphore.acquire().await?;
+//!     // Acquire a permit (default priority)
+//!     let permit = sem.acquire().await.unwrap();
 //!
-//! // High priority acquisition
-//! let _permit2 = semaphore.acquire_with_priority(10).await?;
+//!     // Acquire with custom priority
+//!     let high = sem.acquire_with_priority(10).await.unwrap();
 //!
-//! // Batch acquisition
-//! let _permits = semaphore.acquire_many_with_priority(5, 2).await?;
-//! # Ok(())
-//! # }
+//!     // Release permits automatically on drop
+//!     drop(permit);
+//!     drop(high);
+//! }
 //! ```
+//!
+//! ## Advanced Usage
+//!
+//! Use [`PriorityConfig`] and [`QueueStrategy`] for fine-grained control:
+//!
+//! ```rust
+//! use ranked_semaphore::{RankedSemaphore, PriorityConfig, QueueStrategy};
+//! use std::sync::Arc;
+//!
+//! let config = PriorityConfig::new()
+//!     .default_strategy(QueueStrategy::Fifo)
+//!     .exact(10, QueueStrategy::Lifo);
+//!
+//! let limiter = Arc::new(RankedSemaphore::new_with_config(2, config));
+//!
+//! let _admin = limiter.acquire_with_priority(10).await.unwrap();
+//! let _guest = limiter.acquire_with_priority(0).await.unwrap();
+//! ```
+//!
+//! See the [README](https://github.com/yeungkc/ranked-semaphore#readme) and [API docs](https://docs.rs/ranked-semaphore) for more details.
+#![cfg_attr(docsrs, feature(doc_cfg))]
+#![warn(missing_docs, unreachable_pub, missing_debug_implementations)]
+#![deny(rust_2018_idioms)]
 
 mod config;
 mod error;
@@ -46,20 +60,6 @@ pub use config::{PriorityConfig, QueueStrategy};
 pub use error::{AcquireError, TryAcquireError};
 pub use semaphore::{OwnedRankedSemaphorePermit, RankedSemaphore, RankedSemaphorePermit};
 
-// Runtime-specific implementations are integrated into the main semaphore
-// #[cfg(feature = "tokio")]
-// #[cfg_attr(docsrs, doc(cfg(feature = "tokio")))]
-// pub mod tokio_impl;
-
-// #[cfg(feature = "async-std")]
-// #[cfg_attr(docsrs, doc(cfg(feature = "async-std")))]
-// pub mod async_std_impl;
-
-// #[cfg(feature = "smol")]
-// #[cfg_attr(docsrs, doc(cfg(feature = "smol")))]
-// pub mod smol_impl;
-
-/// Prelude module for commonly used types.
 pub mod prelude {
     pub use crate::{
         AcquireError, OwnedRankedSemaphorePermit, PriorityConfig, QueueStrategy, RankedSemaphore,

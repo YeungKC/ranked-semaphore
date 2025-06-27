@@ -1,11 +1,3 @@
-//! Basic functionality tests for RankedSemaphore
-//!
-//! This module tests core semaphore operations including:
-//! - Creation and initialization
-//! - Basic acquire/release operations  
-//! - State management
-//! - Error handling
-//! - Boundary conditions
 
 use ranked_semaphore::{
     AcquireError, PriorityConfig, QueueStrategy, RankedSemaphore, TryAcquireError,

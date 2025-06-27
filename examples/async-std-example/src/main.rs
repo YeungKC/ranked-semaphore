@@ -1,5 +1,3 @@
-//! Async-std runtime example for ranked-semaphore
-
 use ranked_semaphore::RankedSemaphore;
 use std::sync::Arc;
 use std::time::Duration;

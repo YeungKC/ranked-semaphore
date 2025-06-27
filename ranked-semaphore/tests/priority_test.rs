@@ -1,11 +1,3 @@
-//! Priority functionality tests for RankedSemaphore
-//!
-//! This module tests priority-based operations including:
-//! - Priority acquisition behavior
-//! - Queue strategy configurations (FIFO/LIFO)
-//! - Priority ordering and scheduling
-//! - Complex priority rules and configurations
-//! - Mixed priority scenarios
 
 use ranked_semaphore::{PriorityConfig, QueueStrategy, RankedSemaphore, TryAcquireError};
 use std::sync::atomic::{AtomicUsize, Ordering};

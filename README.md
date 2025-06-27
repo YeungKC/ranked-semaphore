@@ -8,7 +8,7 @@
 
 - **Priority scheduling**: Configurable priority-based task ordering
 - **No runtime dependency**: Works with any async runtime (Tokio, async-std, smol, etc.)
-- **Flexible queue strategies**: FIFO/LIFO and custom rules per priority
+- **Flexible queue strategies**: FIFO/LIFO and custom strategy
 
 ---
 

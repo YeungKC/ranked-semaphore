@@ -1,7 +1,3 @@
-//! Generic futures example for ranked-semaphore
-//! This example shows how to use ranked-semaphore with any executor
-//! that supports the standard Future trait.
-
 use futures::executor::block_on;
 use ranked_semaphore::{PriorityConfig, QueueStrategy, RankedSemaphore};
 use std::sync::Arc;

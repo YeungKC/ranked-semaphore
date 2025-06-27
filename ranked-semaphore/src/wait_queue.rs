@@ -1,11 +1,3 @@
-//! High-performance priority wait queue implementation
-//!
-//! This module implements a high-performance wait queue with the following features:
-//! - Dynamic sparse mapping: Memory allocation only for actively used priorities
-//! - Stack-allocated wake list: Zero-allocation batch waker processing  
-//! - Batch processing: Reduces lock contention and system call overhead
-//! - Cache-friendly: Optimized memory layout
-
 use crate::config::PriorityConfig;
 use std::cell::UnsafeCell;
 use std::collections::{BinaryHeap, HashMap, VecDeque};

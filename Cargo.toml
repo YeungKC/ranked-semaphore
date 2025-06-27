@@ -1,0 +1,36 @@
+[workspace]
+members = [
+    "ranked-semaphore",
+    "examples/tokio-example",
+    "examples/async-std-example",
+    "examples/smol-example",
+    "examples/futures-example",
+    "benchmark",
+]
+resolver = "2"
+
+[workspace.dependencies]
+# Main library
+ranked-semaphore = { path = "ranked-semaphore" }
+
+# Core dependencies
+futures-core = "0.3"
+
+# Runtime dependencies
+tokio = { version = "1.0", features = [
+    "rt",
+    "time",
+    "sync",
+    "macros",
+    "rt-multi-thread",
+] }
+async-std = { version = "1.12", features = ["attributes"] }
+smol = "2.0"
+futures = "0.3"
+
+# Development dependencies
+criterion = "0.5"
+
+[workspace.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]

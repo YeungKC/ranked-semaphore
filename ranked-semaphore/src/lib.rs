@@ -60,11 +60,4 @@ pub use config::{PriorityConfig, QueueStrategy};
 pub use error::{AcquireError, TryAcquireError};
 pub use semaphore::{OwnedRankedSemaphorePermit, RankedSemaphore, RankedSemaphorePermit};
 
-pub mod prelude {
-    pub use crate::{
-        AcquireError, OwnedRankedSemaphorePermit, PriorityConfig, QueueStrategy, RankedSemaphore,
-        RankedSemaphorePermit, TryAcquireError,
-    };
-}
-
 pub use semaphore::{Acquire, AcquireOwned};

@@ -1,3 +1,9 @@
+[![Crates.io](https://img.shields.io/crates/v/ranked-semaphore.svg)](https://crates.io/crates/ranked-semaphore)
+[![Docs.rs](https://docs.rs/ranked-semaphore/badge.svg)](https://docs.rs/ranked-semaphore)
+[![CI](https://github.com/yeungkc/ranked-semaphore/actions/workflows/ci.yml/badge.svg)](https://github.com/yeungkc/ranked-semaphore/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Crates.io downloads](https://img.shields.io/crates/d/ranked-semaphore.svg)](https://crates.io/crates/ranked-semaphore)
+
 # ranked-semaphore
 
 > **A priority-aware semaphore for async Rust.**

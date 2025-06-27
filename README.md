@@ -84,6 +84,6 @@ MIT
 
 - [API Documentation (docs.rs)](https://docs.rs/ranked-semaphore)
 - [Crates.io](https://crates.io/crates/ranked-semaphore)
-- [docs.rs](https://docs.rs/ranked-semaphore)。
+- [docs.rs](https://docs.rs/ranked-semaphore)
 
 ---

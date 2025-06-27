@@ -2,10 +2,10 @@
 name = "ranked-semaphore"
 version = "0.1.0"
 edition = "2021"
-authors = ["Your Name <your.email@example.com>"]
+authors = ["YeungKC <ranked-semaphore@YeungKC.com>"]
 description = "A high-performance ranked semaphore with priority support"
-license = "MIT OR Apache-2.0"
-repository = "https://github.com/yourusername/ranked-semaphore"
+license = "MIT"
+repository = "https://github.com/YeungKC/ranked-semaphore"
 documentation = "https://docs.rs/ranked-semaphore"
 keywords = ["async", "semaphore", "priority", "tokio", "sync"]
 categories = ["asynchronous", "concurrency"]

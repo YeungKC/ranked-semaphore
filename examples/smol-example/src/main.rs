@@ -1,4 +1,3 @@
-
 use ranked_semaphore::{PriorityConfig, QueueStrategy, RankedSemaphore};
 use std::sync::Arc;
 use std::time::Duration;

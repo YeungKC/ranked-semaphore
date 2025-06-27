@@ -1,4 +1,3 @@
-
 use ranked_semaphore::{
     AcquireError, PriorityConfig, QueueStrategy, RankedSemaphore, TryAcquireError,
 };

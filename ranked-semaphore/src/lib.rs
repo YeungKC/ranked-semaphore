@@ -36,14 +36,17 @@
 //! use ranked_semaphore::{RankedSemaphore, PriorityConfig, QueueStrategy};
 //! use std::sync::Arc;
 //!
-//! let config = PriorityConfig::new()
-//!     .default_strategy(QueueStrategy::Fifo)
-//!     .exact(10, QueueStrategy::Lifo);
+//! #[tokio::main]
+//! async fn main() {
+//!     let config = PriorityConfig::new()
+//!         .default_strategy(QueueStrategy::Fifo)
+//!         .exact(10, QueueStrategy::Lifo);
 //!
-//! let limiter = Arc::new(RankedSemaphore::new_with_config(2, config));
+//!     let limiter = Arc::new(RankedSemaphore::new_with_config(2, config));
 //!
-//! let _admin = limiter.acquire_with_priority(10).await.unwrap();
-//! let _guest = limiter.acquire_with_priority(0).await.unwrap();
+//!     let _admin = limiter.acquire_with_priority(10).await.unwrap();
+//!     let _guest = limiter.acquire_with_priority(0).await.unwrap();
+//! }
 //! ```
 //!
 //! See the [README](https://github.com/yeungkc/ranked-semaphore#readme) and [API docs](https://docs.rs/ranked-semaphore) for more details.

@@ -1,6 +1,6 @@
 [package]
 name = "ranked-semaphore"
-version = "0.1.2"
+version = "0.1.3"
 edition = "2021"
 authors = ["YeungKC <ranked-semaphore@YeungKC.com>"]
 description = "A high-performance ranked semaphore with priority support"

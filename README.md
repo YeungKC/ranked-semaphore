@@ -15,6 +15,7 @@
 - **Priority scheduling**: Configurable priority-based task ordering
 - **No runtime dependency**: Works with any async runtime (Tokio, async-std, smol, etc.)
 - **Flexible queue strategies**: FIFO/LIFO and custom strategy
+- **High performance**: Optimized for low latency and high throughput
 
 ---
 
@@ -62,21 +63,25 @@ let _guest = limiter.acquire_with_priority(0).await.unwrap();
 
 ---
 
-## Examples
+## Runtime Support
 
-- [Tokio example](examples/tokio-example)
-- [Async-std example](examples/async-std-example)
-- [Smol example](examples/smol-example)
-- [Futures example](examples/futures-example)
-
-運行：
+The semaphore works with any async runtime. Runtime compatibility is ensured through comprehensive integration tests:
 
 ```sh
-cargo run -p tokio-example
-cargo run -p async-std-example
-cargo run -p smol-example
-cargo run -p futures-example
+# Test Tokio runtime integration
+cargo test --test runtime_tokio_test
+
+# Test async-std runtime integration  
+cargo test --test runtime_async_std_test
+
+# Test smol runtime integration
+cargo test --test runtime_smol_test
+
+# Test futures runtime integration
+cargo test --test runtime_futures_test
 ```
+
+These tests serve as both verification and usage examples for each runtime.
 
 ---
 

@@ -407,7 +407,7 @@ async fn test_priority_ordering_stress() {
 
     // Check that higher priorities generally completed first
     if priority_completed > 0 {
-        println!("First completed priority: {}", priority_completed);
+        println!("First completed priority: {priority_completed}");
         // In a proper priority queue, highest priority should tend to complete first
     }
 

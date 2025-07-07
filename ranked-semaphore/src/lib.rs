@@ -6,6 +6,7 @@
 //! - Priority scheduling: Configurable priority-based task ordering
 //! - No runtime dependency: Works with any async runtime (Tokio, async-std, smol, etc.)
 //! - Flexible queue strategies: FIFO/LIFO and custom strategy
+//! - High performance: Optimized for low latency and high throughput
 //!
 //! ## Quick Start
 //! ```rust
@@ -57,10 +58,12 @@
 mod config;
 mod error;
 mod semaphore;
-mod wait_queue;
+mod wait_queue {
+    pub(crate) mod queue;
+    pub(crate) mod waiter;
+    pub(crate) mod waker;
+}
 
 pub use config::{PriorityConfig, QueueStrategy};
 pub use error::{AcquireError, TryAcquireError};
 pub use semaphore::{OwnedRankedSemaphorePermit, RankedSemaphore, RankedSemaphorePermit};
-
-pub use semaphore::{Acquire, AcquireOwned};

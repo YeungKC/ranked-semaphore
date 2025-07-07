@@ -22,7 +22,7 @@ async fn test_light_contention() {
 
     for (i, handle) in handles.into_iter().enumerate() {
         let result = timeout(Duration::from_millis(2000), handle).await;
-        assert!(result.is_ok(), "Task {} should complete", i);
+        assert!(result.is_ok(), "Task {i} should complete");
     }
 }
 
@@ -44,7 +44,7 @@ async fn test_medium_contention() {
 
     for (i, handle) in handles.into_iter().enumerate() {
         let result = timeout(Duration::from_millis(3000), handle).await;
-        assert!(result.is_ok(), "Task {} should complete", i);
+        assert!(result.is_ok(), "Task {i} should complete");
     }
 }
 
@@ -66,7 +66,7 @@ async fn test_heavy_contention() {
 
     for (i, handle) in handles.into_iter().enumerate() {
         let result = timeout(Duration::from_millis(5000), handle).await;
-        assert!(result.is_ok(), "Task {} should complete", i);
+        assert!(result.is_ok(), "Task {i} should complete");
     }
 }
 
@@ -246,7 +246,7 @@ async fn test_semaphore_close_with_waiters() {
 
     for (i, handle) in handles.into_iter().enumerate() {
         let result = timeout(Duration::from_millis(100), handle).await;
-        assert!(result.is_ok(), "Task {} should complete", i);
+        assert!(result.is_ok(), "Task {i} should complete");
         let acquire_result = result.unwrap().unwrap();
         assert!(matches!(acquire_result, Err(AcquireError { .. })));
     }

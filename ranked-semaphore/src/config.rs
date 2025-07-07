@@ -115,9 +115,32 @@ impl PriorityConfig {
         default_strategy
     }
 
-    /// Get the queue strategy for a specific priority.
+    /// Returns the queue strategy that would be used for the given priority.
+    /// 
+    /// This method evaluates all configured rules to determine which queue strategy
+    /// (FIFO or LIFO) would be applied to a waiter with the specified priority.
+    ///
+    /// # Arguments
+    ///
+    /// * `priority` - The priority level to query
+    ///
+    /// # Returns
+    ///
+    /// The [`QueueStrategy`] that would be used for the given priority.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use ranked_semaphore::{PriorityConfig, QueueStrategy};
+    ///
+    /// let config = PriorityConfig::new()
+    ///     .default_strategy(QueueStrategy::Fifo)
+    ///     .exact(10, QueueStrategy::Lifo);
+    ///
+    /// assert_eq!(config.strategy_for_priority(5), QueueStrategy::Fifo);
+    /// assert_eq!(config.strategy_for_priority(10), QueueStrategy::Lifo);
+    /// ```
     pub fn strategy_for_priority(&self, priority: isize) -> QueueStrategy {
-        // Use the existing resolve_strategy method which has the correct logic
         self.resolve_strategy(priority)
     }
 }

@@ -233,15 +233,15 @@ async fn test_error_display_formatting() {
     sem.close();
     let acquire_result = timeout(Duration::from_millis(50), sem.acquire()).await;
     if let Ok(Err(acquire_error)) = acquire_result {
-        assert_eq!(format!("{}", acquire_error), "semaphore closed");
+        assert_eq!(format!("{acquire_error}"), "semaphore closed");
     }
 
     let try_acquire_closed = TryAcquireError::Closed;
-    assert_eq!(format!("{}", try_acquire_closed), "semaphore closed");
+    assert_eq!(format!("{try_acquire_closed}"), "semaphore closed");
 
     let try_acquire_no_permits = TryAcquireError::NoPermits;
     assert_eq!(
-        format!("{}", try_acquire_no_permits),
+        format!("{try_acquire_no_permits}"),
         "no permits available"
     );
 }
@@ -300,11 +300,11 @@ async fn test_edge_case_single_permit_semaphore() {
 #[tokio::test]
 async fn test_debug_formatting() {
     let sem = RankedSemaphore::new_fifo(5);
-    let debug_str = format!("{:?}", sem);
+    let debug_str = format!("{sem:?}");
     assert!(debug_str.contains("RankedSemaphore"));
 
     let permit = sem.try_acquire().unwrap();
-    let permit_debug = format!("{:?}", permit);
+    let permit_debug = format!("{permit:?}");
     assert!(permit_debug.contains("RankedSemaphorePermit"));
 }
 

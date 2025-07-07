@@ -1,10 +1,6 @@
 [workspace]
 members = [
     "ranked-semaphore",
-    "examples/tokio-example",
-    "examples/async-std-example",
-    "examples/smol-example",
-    "examples/futures-example",
     "benchmark",
 ]
 resolver = "2"
@@ -23,6 +19,7 @@ tokio = { version = "1.0", features = [
     "sync",
     "macros",
     "rt-multi-thread",
+    "full",
 ] }
 async-std = { version = "1.12", features = ["attributes"] }
 smol = "2.0"

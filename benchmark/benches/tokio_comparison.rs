@@ -10,7 +10,7 @@ const TEST_SCALES: &[usize] = &[1_000, 5_000, 10_000, 50_000, 100_000];
 
 /// Get test configuration - 10 samples minimum (Criterion requirement), fast timeouts
 fn get_test_config(task_count: usize) -> (usize, Duration, Duration) {
-    let sample_size = 50; // Fixed sample size for all tests
+    let sample_size = 100000; // Fixed sample size for all tests
     match task_count {
         1_000 => (sample_size, Duration::from_secs(3), Duration::from_secs(10)),
         5_000 => (sample_size, Duration::from_secs(3), Duration::from_secs(15)),

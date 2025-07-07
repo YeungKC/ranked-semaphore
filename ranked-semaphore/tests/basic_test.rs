@@ -240,10 +240,7 @@ async fn test_error_display_formatting() {
     assert_eq!(format!("{try_acquire_closed}"), "semaphore closed");
 
     let try_acquire_no_permits = TryAcquireError::NoPermits;
-    assert_eq!(
-        format!("{try_acquire_no_permits}"),
-        "no permits available"
-    );
+    assert_eq!(format!("{try_acquire_no_permits}"), "no permits available");
 }
 
 #[tokio::test]

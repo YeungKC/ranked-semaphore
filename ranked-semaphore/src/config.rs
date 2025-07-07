@@ -116,7 +116,7 @@ impl PriorityConfig {
     }
 
     /// Returns the queue strategy that would be used for the given priority.
-    /// 
+    ///
     /// This method evaluates all configured rules to determine which queue strategy
     /// (FIFO or LIFO) would be applied to a waiter with the specified priority.
     ///

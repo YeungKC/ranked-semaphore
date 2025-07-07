@@ -67,7 +67,7 @@ impl<'a> RankedSemaphorePermit<'a> {
     /// # async fn main() {
     /// let sem = RankedSemaphore::new_fifo(3);
     /// let permit = sem.acquire().await.unwrap();
-    /// 
+    ///
     /// assert_eq!(sem.available_permits(), 2);
     /// permit.forget(); // Permit is not returned to semaphore
     /// assert_eq!(sem.available_permits(), 2);
@@ -119,7 +119,7 @@ impl<'a> RankedSemaphorePermit<'a> {
     /// let sem = RankedSemaphore::new_fifo(5);
     /// let mut permit1 = sem.acquire_many(2).await.unwrap();
     /// let permit2 = sem.acquire_many(1).await.unwrap();
-    /// 
+    ///
     /// permit1.merge(permit2);
     /// assert_eq!(permit1.num_permits(), 3);
     /// # }
@@ -157,7 +157,7 @@ impl<'a> RankedSemaphorePermit<'a> {
     /// # async fn main() {
     /// let sem = RankedSemaphore::new_fifo(5);
     /// let mut permit = sem.acquire_many(3).await.unwrap();
-    /// 
+    ///
     /// let split_permit = permit.split(2).unwrap();
     /// assert_eq!(permit.num_permits(), 1);
     /// assert_eq!(split_permit.num_permits(), 2);
@@ -216,7 +216,7 @@ impl OwnedRankedSemaphorePermit {
     /// # async fn main() {
     /// let sem = Arc::new(RankedSemaphore::new_fifo(3));
     /// let permit = sem.clone().acquire_owned().await.unwrap();
-    /// 
+    ///
     /// assert_eq!(sem.available_permits(), 2);
     /// permit.forget(); // Permit is not returned to semaphore
     /// assert_eq!(sem.available_permits(), 2);
@@ -270,7 +270,7 @@ impl OwnedRankedSemaphorePermit {
     /// let sem = Arc::new(RankedSemaphore::new_fifo(5));
     /// let mut permit1 = sem.clone().acquire_many_owned(2).await.unwrap();
     /// let permit2 = sem.acquire_many_owned(1).await.unwrap();
-    /// 
+    ///
     /// permit1.merge(permit2);
     /// assert_eq!(permit1.num_permits(), 3);
     /// # }
@@ -309,7 +309,7 @@ impl OwnedRankedSemaphorePermit {
     /// # async fn main() {
     /// let sem = Arc::new(RankedSemaphore::new_fifo(5));
     /// let mut permit = sem.acquire_many_owned(3).await.unwrap();
-    /// 
+    ///
     /// let split_permit = permit.split(2).unwrap();
     /// assert_eq!(permit.num_permits(), 1);
     /// assert_eq!(split_permit.num_permits(), 2);
@@ -342,7 +342,7 @@ impl OwnedRankedSemaphorePermit {
     /// # async fn main() {
     /// let sem = Arc::new(RankedSemaphore::new_fifo(3));
     /// let permit = sem.acquire_owned().await.unwrap();
-    /// 
+    ///
     /// let sem_ref = permit.semaphore();
     /// assert_eq!(sem_ref.available_permits(), 2);
     /// # }

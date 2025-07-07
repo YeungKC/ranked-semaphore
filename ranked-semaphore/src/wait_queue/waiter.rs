@@ -59,7 +59,7 @@ impl WaiterState {
             }
             return;
         }
-        
+
         // Also try to cancel if it's been notified but not yet processed
         if self
             .state

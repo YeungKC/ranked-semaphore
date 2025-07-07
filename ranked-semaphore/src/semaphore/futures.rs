@@ -67,22 +67,30 @@ impl<'a> Future for Acquire<'a> {
         // Simple fast path - single attempt
         if this.waiter_handle.is_none() {
             let n_shifted = (this.permits_needed) << super::RankedSemaphore::PERMIT_SHIFT;
-            let curr = this.semaphore.permits.load(std::sync::atomic::Ordering::Relaxed);
-            
+            let curr = this
+                .semaphore
+                .permits
+                .load(std::sync::atomic::Ordering::Relaxed);
+
             // Quick check: closed or insufficient permits
             if curr & super::RankedSemaphore::CLOSED != 0 {
                 return Poll::Ready(Err(AcquireError::closed()));
             }
-            
+
             if curr >= n_shifted {
                 // Single CAS attempt
                 let next = curr - n_shifted;
-                if this.semaphore.permits.compare_exchange_weak(
-                    curr,
-                    next,
-                    std::sync::atomic::Ordering::AcqRel,
-                    std::sync::atomic::Ordering::Relaxed,
-                ).is_ok() {
+                if this
+                    .semaphore
+                    .permits
+                    .compare_exchange_weak(
+                        curr,
+                        next,
+                        std::sync::atomic::Ordering::AcqRel,
+                        std::sync::atomic::Ordering::Relaxed,
+                    )
+                    .is_ok()
+                {
                     return Poll::Ready(Ok(super::RankedSemaphorePermit {
                         sem: this.semaphore,
                         permits: this.permits_needed as u32,
@@ -95,25 +103,31 @@ impl<'a> Future for Acquire<'a> {
         // Minimal slow path: just queue and wait
         if this.waiter_handle.is_none() {
             let mut waiters = this.semaphore.waiters.lock().unwrap();
-            
+
             // Final check for closed state
-            if this.semaphore.permits.load(std::sync::atomic::Ordering::Relaxed) & super::RankedSemaphore::CLOSED != 0 {
+            if this
+                .semaphore
+                .permits
+                .load(std::sync::atomic::Ordering::Relaxed)
+                & super::RankedSemaphore::CLOSED
+                != 0
+            {
                 return Poll::Ready(Err(AcquireError::closed()));
             }
-            
+
             // Queue immediately - no retry under lock
             this.waiter_handle = Some(waiters.push_waiter(this.permits_needed, this.priority));
         }
 
         // Wait for notification (optimized waker handling)
         let handle = this.waiter_handle.as_ref().unwrap();
-        
+
         // Check cancelled first to handle the race condition where a waiter
         // might be both notified and cancelled due to semaphore close
         if handle.state.is_cancelled() {
             return Poll::Ready(Err(AcquireError::closed()));
         }
-        
+
         // Then check notification status
         if handle.state.is_notified() {
             // Double-check that the semaphore is still open before returning success
@@ -122,7 +136,7 @@ impl<'a> Future for Acquire<'a> {
             if this.semaphore.is_closed() {
                 return Poll::Ready(Err(AcquireError::closed()));
             }
-            
+
             // The permit was reserved for us by `add_permits`.
             return Poll::Ready(Ok(super::RankedSemaphorePermit {
                 sem: this.semaphore,
@@ -141,7 +155,7 @@ impl<'a> Drop for Acquire<'a> {
         // If the future is dropped while in the wait queue, we need to cancel it.
         if let Some(handle) = self.waiter_handle.take() {
             handle.state.cancel();
-            
+
             // Only remove from queue if it's still waiting (not notified)
             // This avoids expensive O(n) removal for completed waiters
             if handle.state.is_waiting() {
@@ -161,22 +175,30 @@ impl Future for AcquireOwned {
         // Simple fast path - single attempt
         if this.waiter_handle.is_none() {
             let n_shifted = (this.permits_needed) << super::RankedSemaphore::PERMIT_SHIFT;
-            let curr = this.semaphore.permits.load(std::sync::atomic::Ordering::Relaxed);
-            
+            let curr = this
+                .semaphore
+                .permits
+                .load(std::sync::atomic::Ordering::Relaxed);
+
             // Quick check: closed or insufficient permits
             if curr & super::RankedSemaphore::CLOSED != 0 {
                 return Poll::Ready(Err(AcquireError::closed()));
             }
-            
+
             if curr >= n_shifted {
                 // Single CAS attempt
                 let next = curr - n_shifted;
-                if this.semaphore.permits.compare_exchange_weak(
-                    curr,
-                    next,
-                    std::sync::atomic::Ordering::AcqRel,
-                    std::sync::atomic::Ordering::Relaxed,
-                ).is_ok() {
+                if this
+                    .semaphore
+                    .permits
+                    .compare_exchange_weak(
+                        curr,
+                        next,
+                        std::sync::atomic::Ordering::AcqRel,
+                        std::sync::atomic::Ordering::Relaxed,
+                    )
+                    .is_ok()
+                {
                     return Poll::Ready(Ok(super::OwnedRankedSemaphorePermit {
                         sem: Arc::clone(&this.semaphore),
                         permits: this.permits_needed as u32,
@@ -189,25 +211,31 @@ impl Future for AcquireOwned {
         // Minimal slow path: just queue and wait
         if this.waiter_handle.is_none() {
             let mut waiters = this.semaphore.waiters.lock().unwrap();
-            
+
             // Final check for closed state
-            if this.semaphore.permits.load(std::sync::atomic::Ordering::Relaxed) & super::RankedSemaphore::CLOSED != 0 {
+            if this
+                .semaphore
+                .permits
+                .load(std::sync::atomic::Ordering::Relaxed)
+                & super::RankedSemaphore::CLOSED
+                != 0
+            {
                 return Poll::Ready(Err(AcquireError::closed()));
             }
-            
+
             // Queue immediately - no retry under lock
             this.waiter_handle = Some(waiters.push_waiter(this.permits_needed, this.priority));
         }
 
         // Wait for notification (optimized waker handling)
         let handle = this.waiter_handle.as_ref().unwrap();
-        
+
         // Check cancelled first to handle the race condition where a waiter
         // might be both notified and cancelled due to semaphore close
         if handle.state.is_cancelled() {
             return Poll::Ready(Err(AcquireError::closed()));
         }
-        
+
         // Then check notification status
         if handle.state.is_notified() {
             // Double-check that the semaphore is still open before returning success
@@ -216,7 +244,7 @@ impl Future for AcquireOwned {
             if this.semaphore.is_closed() {
                 return Poll::Ready(Err(AcquireError::closed()));
             }
-            
+
             // The permit was reserved for us by `add_permits`.
             return Poll::Ready(Ok(super::OwnedRankedSemaphorePermit {
                 sem: Arc::clone(&this.semaphore),
@@ -235,7 +263,7 @@ impl Drop for AcquireOwned {
         // If the future is dropped while in the wait queue, we need to cancel it.
         if let Some(handle) = self.waiter_handle.take() {
             handle.state.cancel();
-            
+
             // Only remove from queue if it's still waiting (not notified)
             // This avoids expensive O(n) removal for completed waiters
             if handle.state.is_waiting() {

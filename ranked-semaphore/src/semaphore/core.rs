@@ -336,7 +336,7 @@ impl RankedSemaphore {
     ///
     /// let sem = RankedSemaphore::new_fifo(3);
     /// sem.close();
-    /// 
+    ///
     /// assert!(sem.is_closed());
     /// assert!(sem.try_acquire().is_err());
     /// ```

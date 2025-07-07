@@ -1,6 +1,6 @@
 use crate::config::{PriorityConfig, QueueStrategy};
-use crate::wait_queue::waker::WakeList;
 use crate::wait_queue::waiter::{WaiterHandle, WaiterState};
+use crate::wait_queue::waker::WakeList;
 use std::collections::{BinaryHeap, HashMap, VecDeque};
 use std::fmt;
 use std::sync::atomic::{AtomicBool, Ordering};
@@ -16,7 +16,8 @@ trait PriorityQueueExt {
 
 impl PriorityQueueExt for PriorityQueues {
     fn get_mut_or_create(&mut self, priority: isize) -> &mut VecDeque<Arc<WaiterState>> {
-        self.entry(priority).or_insert_with(|| VecDeque::with_capacity(4))
+        self.entry(priority)
+            .or_insert_with(|| VecDeque::with_capacity(4))
     }
 
     fn has_non_empty_queue(&self, priority: isize) -> bool {
@@ -271,10 +272,10 @@ impl WaitQueue {
     pub(crate) fn is_empty(&self) -> bool {
         self.total_waiters == 0
     }
-    
+
     pub(crate) fn remove_waiter(&mut self, waiter: &Arc<WaiterState>) {
         let priority = waiter.priority;
-        
+
         if let Some(queue) = self.priority_queues.get_mut(&priority) {
             if let Some(pos) = queue.iter().position(|w| Arc::ptr_eq(w, waiter)) {
                 queue.remove(pos);
@@ -311,10 +312,7 @@ impl fmt::Debug for WaitQueue {
         f.debug_struct("WaitQueue")
             .field("total_waiters", &self.total_waiters)
             .field("active_priorities", &self.active_priorities.len())
-            .field(
-                "priority_queues",
-                &self.priority_queues.len(),
-            )
+            .field("priority_queues", &self.priority_queues.len())
             .field("closed", &self.closed.load(Ordering::Relaxed))
             .finish()
     }

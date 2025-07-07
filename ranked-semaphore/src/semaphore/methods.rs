@@ -60,7 +60,10 @@ impl super::RankedSemaphore {
     /// let permit = sem.acquire_with_priority(10).await.unwrap();
     /// # }
     /// ```
-    pub fn acquire_with_priority(&self, priority: isize) -> impl Future<Output = Result<RankedSemaphorePermit<'_>, AcquireError>> {
+    pub fn acquire_with_priority(
+        &self,
+        priority: isize,
+    ) -> impl Future<Output = Result<RankedSemaphorePermit<'_>, AcquireError>> {
         self.acquire_many_with_priority(priority, 1)
     }
 
@@ -91,7 +94,10 @@ impl super::RankedSemaphore {
     /// assert_eq!(permits.num_permits(), 3);
     /// # }
     /// ```
-    pub fn acquire_many(&self, n: u32) -> impl Future<Output = Result<RankedSemaphorePermit<'_>, AcquireError>> {
+    pub fn acquire_many(
+        &self,
+        n: u32,
+    ) -> impl Future<Output = Result<RankedSemaphorePermit<'_>, AcquireError>> {
         self.acquire_many_with_priority(0, n)
     }
 
@@ -156,7 +162,7 @@ impl super::RankedSemaphore {
     ///
     /// let sem = RankedSemaphore::new_fifo(1);
     /// let _permit1 = sem.try_acquire().unwrap();
-    /// 
+    ///
     /// match sem.try_acquire() {
     ///     Ok(_) => panic!("Should not succeed"),
     ///     Err(TryAcquireError::NoPermits) => println!("No permits available"),
@@ -254,7 +260,7 @@ impl super::RankedSemaphore {
     ///
     /// let sem = RankedSemaphore::new_fifo(5);
     /// let _permits = sem.try_acquire_many(3).unwrap();
-    /// 
+    ///
     /// match sem.try_acquire_many(5) {
     ///     Ok(_) => panic!("Should not succeed"),
     ///     Err(TryAcquireError::NoPermits) => println!("Not enough permits"),
@@ -332,7 +338,9 @@ impl super::RankedSemaphore {
     /// let permit = sem.acquire_owned().await.unwrap();
     /// # }
     /// ```
-    pub fn acquire_owned(self: Arc<Self>) -> impl Future<Output = Result<OwnedRankedSemaphorePermit, AcquireError>> {
+    pub fn acquire_owned(
+        self: Arc<Self>,
+    ) -> impl Future<Output = Result<OwnedRankedSemaphorePermit, AcquireError>> {
         self.acquire_many_owned_with_priority(0, 1)
     }
 
@@ -398,7 +406,10 @@ impl super::RankedSemaphore {
     /// assert_eq!(permits.num_permits(), 3);
     /// # }
     /// ```
-    pub fn acquire_many_owned(self: Arc<Self>, n: u32) -> impl Future<Output = Result<OwnedRankedSemaphorePermit, AcquireError>> {
+    pub fn acquire_many_owned(
+        self: Arc<Self>,
+        n: u32,
+    ) -> impl Future<Output = Result<OwnedRankedSemaphorePermit, AcquireError>> {
         self.acquire_many_owned_with_priority(0, n)
     }
 
@@ -463,7 +474,7 @@ impl super::RankedSemaphore {
     ///
     /// let sem = Arc::new(RankedSemaphore::new_fifo(1));
     /// let _permit1 = sem.clone().try_acquire_owned().unwrap();
-    /// 
+    ///
     /// match sem.try_acquire_owned() {
     ///     Ok(_) => panic!("Should not succeed"),
     ///     Err(TryAcquireError::NoPermits) => println!("No permits available"),
@@ -531,7 +542,7 @@ impl super::RankedSemaphore {
     ///
     /// let sem = Arc::new(RankedSemaphore::new_fifo(5));
     /// let _permits = sem.clone().try_acquire_many_owned(3).unwrap();
-    /// 
+    ///
     /// match sem.try_acquire_many_owned(5) {
     ///     Ok(_) => panic!("Should not succeed"),
     ///     Err(TryAcquireError::NoPermits) => println!("Not enough permits"),
